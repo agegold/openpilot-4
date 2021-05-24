@@ -9,6 +9,7 @@ from selfdrive.car.hyundai.hyundaican import create_lkas11, create_clu11, create
 from selfdrive.car.hyundai.values import Buttons, CarControllerParams, CAR, FEATURES
 from opendbc.can.packer import CANPacker
 from selfdrive.config import Conversions as CV
+from selfdrive.controls.lib.longcontrol import LongCtrlState
 
 from selfdrive.controls.lib.lateral_planner import LANE_CHANGE_SPEED_MIN
 
@@ -110,6 +111,9 @@ class CarController():
     self.driver_steering_torque_above_timer = 100
     
     self.mode_change_timer = 0
+
+    self.acc_standstill_timer = 0
+    self.acc_standstill = False
 
     self.need_brake = False
     self.need_brake_timer = 0
@@ -421,6 +425,8 @@ class CarController():
           self.standstill_fault_reduce_timer += 1
         # at least 1 sec delay after entering the standstill
         elif 100 < self.standstill_fault_reduce_timer and CS.lead_distance != self.last_lead_distance:
+          self.acc_standstill_timer = 0
+          self.acc_standstill = False
           can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.RES_ACCEL)) if not self.longcontrol else can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.RES_ACCEL, clu11_speed, CS.CP.sccBus))
           self.resume_cnt += 1
           if self.resume_cnt > 5:
@@ -497,6 +503,24 @@ class CarController():
       self.res_switch_timer = 0
       self.resume_cnt = 0
 
+    if CS.out.vEgo <= 1:
+      self.sm.update(0)
+      long_control_state = self.sm['controlsState'].longControlState
+      if long_control_state == LongCtrlState.stopping and CS.out.vEgo < 0.1 and not CS.out.gasPressed:
+        self.acc_standstill_timer += 1
+        if self.acc_standstill_timer >= 200:
+          self.acc_standstill_timer = 200
+          self.acc_standstill = True
+      else:
+        self.acc_standstill_timer = 0
+        self.acc_standstill = False
+    elif CS.out.gasPressed or CS.out.vEgo > 1:
+      self.acc_standstill = False
+      self.acc_standstill_timer = 0      
+    else:
+      self.acc_standstill = False
+      self.acc_standstill_timer = 0
+
     if CS.CP.mdpsBus: # send mdps12 to LKAS to prevent LKAS error
       can_sends.append(create_mdps12(self.packer, frame, CS.mdps12))
 
@@ -533,7 +557,7 @@ class CarController():
           can_sends.append(create_scc12(self.packer, apply_accel, enabled, self.scc_live, CS.out.gasPressed, 1, CS.out.stockAeb, self.car_fingerprint, CS.clu_Vanz, CS.scc12))
         else:
           can_sends.append(create_scc12(self.packer, apply_accel, enabled, self.scc_live, CS.out.gasPressed, CS.out.brakePressed, CS.out.stockAeb, self.car_fingerprint, CS.clu_Vanz, CS.scc12))
-        can_sends.append(create_scc14(self.packer, enabled, CS.scc14, CS.out.stockAeb, lead_visible, lead_dist))
+        can_sends.append(create_scc14(self.packer, enabled, CS.scc14, CS.out.stockAeb, lead_visible, lead_dist, CS.out.vEgo, self.acc_standstill))
         if CS.CP.fcaBus == -1:
           can_sends.append(create_fca11(self.packer, CS.fca11, self.fca11alivecnt, self.fca11supcnt))
       if frame % 20 == 0:

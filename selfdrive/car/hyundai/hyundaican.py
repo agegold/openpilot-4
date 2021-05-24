@@ -140,15 +140,22 @@ def create_scc13(packer, scc13):
   values = scc13
   return packer.make_can_msg("SCC13", 0, values)
 
-def create_scc14(packer, enabled, scc14, aebcmdact, lead_visible, lead_dist):
+def create_scc14(packer, enabled, scc14, aebcmdact, lead_visible, lead_dist, v_ego, standstill):
   values = scc14
   if enabled and not aebcmdact:
-    values["JerkUpperLimit"] = 12.7
-    values["JerkLowerLimit"] = 12.7
-    values["ComfortBandUpper"] = 0
-    values["ComfortBandLower"] = 0
-    values["ACCMode"] = 1 if enabled else 4 # stock will always be 4 instead of 0 after first disengage
-    values["ObjGap"] = int(min(lead_dist+2, 10)/2) if lead_visible else 0 # 1-5 based on distance to lead vehicle
+    if standstill:
+      values["JerkUpperLimit"] = 0.5
+      values["JerkLowerLimit"] = 10.
+      values["ComfortBandUpper"] = 0.
+      values["ComfortBandLower"] = 0.
+      if v_ego > 0.27:
+        values["ComfortBandUpper"] = 2.
+        values["ComfortBandLower"] = 0.
+    else:
+      values["JerkUpperLimit"] = 50.
+      values["JerkLowerLimit"] = 50.
+      values["ComfortBandUpper"] = 50.
+      values["ComfortBandLower"] = 50.
 
   return packer.make_can_msg("SCC14", 0, values)
 
