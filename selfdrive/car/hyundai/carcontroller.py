@@ -1,4 +1,4 @@
-from cereal import car, log
+from cereal import car, log, messaging
 from common.realtime import DT_CTRL
 from common.numpy_fast import clip
 from common.numpy_fast import interp
@@ -201,7 +201,7 @@ class CarController():
       self.str_log2 = 'T={:04.0f}/{:05.3f}/{:06.4f}'.format(CP.lateralTuning.lqr.scale, CP.lateralTuning.lqr.ki, CP.lateralTuning.lqr.dcGain)
 
     self.p = CarControllerParams
-    #self.sm = messaging.SubMaster(['controlsState'])
+    self.sm = messaging.SubMaster(['controlsState'])
   def update(self, enabled, CS, frame, CC, actuators, pcm_cancel_cmd, visual_alert,
              left_lane, right_lane, left_lane_depart, right_lane_depart, set_speed, lead_visible, lead_dist, lead_vrel, lead_yrel, sm):
 
@@ -553,7 +553,7 @@ class CarController():
             stock_weight = 0.
           apply_accel = apply_accel * (1. - stock_weight) + aReqValue * stock_weight
         can_sends.append(create_scc11(self.packer, frame, set_speed, lead_visible, self.scc_live, lead_dist, lead_vrel, lead_yrel, self.car_fingerprint, CS.clu_Vanz, CS.scc11))
-        if CS.brake_check or CS.cancel_check:
+        if (CS.brake_check or CS.cancel_check) and self.car_fingerprint not in [CAR.NIRO_EV]:
           can_sends.append(create_scc12(self.packer, apply_accel, enabled, self.scc_live, CS.out.gasPressed, 1, CS.out.stockAeb, self.car_fingerprint, CS.clu_Vanz, CS.scc12))
         else:
           can_sends.append(create_scc12(self.packer, apply_accel, enabled, self.scc_live, CS.out.gasPressed, CS.out.brakePressed, CS.out.stockAeb, self.car_fingerprint, CS.clu_Vanz, CS.scc12))
