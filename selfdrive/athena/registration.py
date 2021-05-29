@@ -76,9 +76,10 @@ def register(show_spinner=False) -> str:
           dongle_id = dongleauth["dongle_id"]
         break
       except Exception:
-        cloudlog.exception("failed to authenticate")
-        backoff = min(backoff + 1, 15)
-        time.sleep(backoff)
+        break
+        #cloudlog.exception("failed to authenticate")
+        #backoff = min(backoff + 1, 15)
+        #time.sleep(backoff)
 
     if show_spinner:
       spinner.close()
