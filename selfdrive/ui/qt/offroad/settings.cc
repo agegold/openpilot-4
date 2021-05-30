@@ -101,11 +101,6 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "시스템로그 및 기타 주행데이터를 서버로 전송하기 위해 업로드 프로세스를 활성화 합니다. 오프로드 상태에서만 업로드 합니다.",
                                   "../assets/offroad/icon_shell.png",
                                   this));
-  toggles.append(new ParamControl("MadModeEnabled",
-                                  "MainSW 오픈파일럿 ON/OFF",
-                                  "크루즈 MainSW를 이용하여 오파를 활성화 합니다.",
-                                  "../assets/offroad/icon_shell.png",
-                                  this));
   toggles.append(new ParamControl("CommaStockUI",
                                   "Comma Stock UI 사용",
                                   "주행화면을 콤마의 순정 UI를 사용합니다. 주행화면 좌측상단의 박스를 눌러도 실시간 전환 가능합니다.",
