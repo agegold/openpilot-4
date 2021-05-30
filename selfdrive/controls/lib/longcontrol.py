@@ -114,10 +114,6 @@ class LongControl():
       self.v_pid = v_target
       self.pid.pos_limit = gas_max
       self.pid.neg_limit = - brake_max
-      afactor = 1
-      vfactor = 1
-      dfactor = 1
-      dvfactor = 1
 
       # Toyota starts braking more when it thinks you want to stop
       # Freeze the integrator so we don't accelerate to compensate, and don't allow positive acceleration
@@ -126,19 +122,6 @@ class LongControl():
 
       output_gb = self.pid.update(self.v_pid, v_ego_pid, speed=v_ego_pid, deadzone=deadzone, feedforward=a_target, freeze_integrator=prevent_overshoot)
 
-      # added by opkr
-      afactor = interp(CS.vEgo,[0,1,2,3,4,8,12,16,20], [4.5,4.0,3.65,3.375,3.1,2.3,2.1,2,2])
-      vfactor = interp(dRel,[1,30,50], [15,7,4])
-      dfactor = interp(dRel,[4,10], [1.6,1])
-      dvfactor = interp(((CS.vEgo*3.6)/(max(3,dRel))),[1,2,3], [1,3,5])
-
-      # if abs(output_gb) < abs(a_target_raw)/afactor and a_target_raw < 0 and dRel >= 4.0:
-      #   output_gb = (-abs(a_target_raw)/afactor)*dfactor
-      if output_gb > 0 and a_target_raw < 0 and dRel >= 4.0:
-        output_gb = output_gb/vfactor
-      elif output_gb > 0 and a_target_raw > 0 and dRel >= 4.0 and (CS.vEgo*3.6) < 65:
-        output_gb = output_gb/dvfactor
-      
       if prevent_overshoot or CS.brakeHold:
         output_gb = min(output_gb, 0.0)
 
