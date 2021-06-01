@@ -469,6 +469,7 @@ void Device::setAwake(bool on, bool reset) {
   if (reset) {
     awake_timeout = 30 * UI_FREQ;
     scene.scr.nTime = scene.scr.autoScreenOff * 60 * UI_FREQ;
+    Params().put("OpkrForceShutdownTrigger", "0", 1);
    // printf("Device::setAwake=%d \n", scene.scr.nTime);
   }
 }
@@ -506,11 +507,7 @@ void Device::updateWakefulness(const UIState &s) {
       bool accel_trigger = abs(s.scene.accel_sensor - accel_prev) > 0.2;
       bool gyro_trigger = abs(s.scene.gyro_sensor - gyro_prev) > 0.15;
       should_wake = accel_trigger && gyro_trigger;
-      if (should_wake) {
-        Params().put("OpkrForceShutdownTrigger", "0", 1);
-      } else {
-        Params().put("OpkrForceShutdownTrigger", "1", 1);
-      }
+      Params().put("OpkrForceShutdownTrigger", "1", 1);
       gyro_prev = s.scene.gyro_sensor;
       accel_prev = (accel_prev * (accel_samples - 1) + s.scene.accel_sensor) / accel_samples;
     }
