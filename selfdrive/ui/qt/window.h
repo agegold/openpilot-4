@@ -32,4 +32,5 @@ public slots:
   void openSettings();
   void closeSettings();
   void reviewTrainingGuide();
+  void forceShutdownStat();
 };

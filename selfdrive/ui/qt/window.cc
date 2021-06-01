@@ -37,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   QObject::connect(&qs, &QUIState::uiUpdate, &device, &Device::update);
   QObject::connect(&qs, &QUIState::offroadTransition, this, &MainWindow::offroadTransition);
   QObject::connect(&device, &Device::displayPowerChanged, this, &MainWindow::closeSettings);
+  QObject::connect(&device, &Device::displayPowerChanged, this, &MainWindow::forceShutdownStat);
 
   // load fonts
   QFontDatabase::addApplicationFont("../assets/fonts/opensans_regular.ttf");
@@ -66,9 +67,13 @@ void MainWindow::openSettings() {
 void MainWindow::closeSettings() {
   if(onboardingDone) {
     main_layout->setCurrentWidget(homeWindow);
-    Params().put("OpkrForceShutdownTrigger", "1", 1);
   }
 }
+
+void MainWindow::forceShutdownStat() {
+  Params().put("OpkrForceShutdownTrigger", "1", 1);
+}
+
 
 void MainWindow::reviewTrainingGuide() {
   onboardingDone = false;
