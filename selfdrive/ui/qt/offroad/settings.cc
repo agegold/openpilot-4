@@ -431,6 +431,7 @@ QWidget * user_panel(QWidget * parent) {
   // OPKR
   layout->addWidget(new LabelControl("UI설정", ""));
   layout->addWidget(new AutoShutdown());
+  layout->addWidget(new ForceShutdown());
   //layout->addWidget(new AutoScreenDimmingToggle());
   layout->addWidget(new AutoScreenOff());
   layout->addWidget(new VolumeControl());
