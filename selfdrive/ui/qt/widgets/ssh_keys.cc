@@ -370,7 +370,7 @@ void AutoShutdown::refresh() {
   btnplus.setText("＋");
 }
 
-ForceShutdown::ForceShutdown() : AbstractControl("EON 강제 종료(오프로드)", "운행을 하지 않고(온로드 진입X) 오프로드상태에서 화면이 꺼진경우 일정시간 이후에 강제로 꺼지게 합니다. 화면이 다시 켜진경우 꺼지는 시간이 리셋됩니다.", "../assets/offroad/icon_shell.png") {
+ForceShutdown::ForceShutdown() : AbstractControl("EON 강제 종료", "운행을 하지 않고(온로드 진입X) 오프로드상태에서 화면이 꺼진경우 일정시간 이후에 강제로 꺼지게 합니다. 화면이 다시 켜진경우 꺼지는 시간이 리셋됩니다.", "../assets/offroad/icon_shell.png") {
 
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
