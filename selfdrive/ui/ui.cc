@@ -529,7 +529,6 @@ void Device::ScreenAwake()
   {
     awake_timeout = 30 * UI_FREQ;
     s.scene.scr.nTime--;
-    Params().put("OpkrForceShutdownTrigger", "0", 1);
   }
   else if(s.scene.ignition && (speed < 1))
   {

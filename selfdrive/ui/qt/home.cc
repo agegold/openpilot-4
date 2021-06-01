@@ -53,6 +53,7 @@ void HomeWindow::offroadTransition(bool offroad) {
 }
 
 void HomeWindow::mousePressEvent(QMouseEvent* e) {
+  Params().put("OpkrForceShutdownTrigger", "0", 1);
   // TODO: make a nice driver view widget
   if (QUIState::ui_state.scene.driver_view && !rec_btn.ptInRect(e->x(), e->y())) {
     Params().putBool("IsDriverViewEnabled", false);
