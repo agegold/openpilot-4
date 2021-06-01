@@ -469,7 +469,6 @@ void Device::setAwake(bool on, bool reset) {
   if (reset) {
     awake_timeout = 30 * UI_FREQ;
     scene.scr.nTime = scene.scr.autoScreenOff * 60 * UI_FREQ;
-    Params().put("OpkrForceShutdownTrigger", "0", 1);
    // printf("Device::setAwake=%d \n", scene.scr.nTime);
   }
 }
@@ -530,6 +529,7 @@ void Device::ScreenAwake()
   {
     awake_timeout = 30 * UI_FREQ;
     s.scene.scr.nTime--;
+    Params().put("OpkrForceShutdownTrigger", "0", 1);
   }
   else if(s.scene.ignition && (speed < 1))
   {
