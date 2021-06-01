@@ -470,6 +470,24 @@ def thermald_thread():
          started_seen and opkrAutoShutdown and (sec_since_boot() - off_ts) > opkrAutoShutdown and not os.path.isfile(pandaflash_ongoing):
         os.system('LD_LIBRARY_PATH="" svc power shutdown')
 
+      if int(params.get("OpkrFoceShutdown", encoding="utf8")) != 0 and not started_seen and msg.deviceState.batteryStatus == "Discharging":
+        shutdown_option = int(params.get("OpkrFoceShutdown", encoding="utf8"))
+        if shutdown_option == 1:
+          opkrForceShutdown = 60
+        elif shutdown_option == 2:
+          opkrForceShutdown = 180
+        elif shutdown_option == 3:
+          opkrForceShutdown = 300
+        elif shutdown_option == 4:
+          opkrForceShutdown = 600
+        else:
+          opkrForceShutdown = 1800
+        if (sec_since_boot() - off_ts) > opkrForceShutdown and params.get_bool("OpkrForceShutdownTrigger"):
+          os.system('LD_LIBRARY_PATH="" svc power shutdown')
+        elif not params.get_bool("OpkrForceShutdownTrigger"):
+          off_ts = sec_since_boot()
+
+
     charging_disabled = check_car_battery_voltage(should_start, pandaState, charging_disabled, msg)
 
     if msg.deviceState.batteryCurrent > 0:

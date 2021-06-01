@@ -219,6 +219,8 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"GitCommitRemote", PERSISTENT},
     {"IsOpenpilotViewEnabled", CLEAR_ON_MANAGER_START},
     {"OpkrAutoShutdown", PERSISTENT},
+    {"OpkrForceShutdown", PERSISTENT},
+    {"OpkrForceShutdownTrigger", PERSISTENT},
     {"OpkrAutoScreenOff", PERSISTENT},
     {"OpkrUIBrightness", PERSISTENT},
     {"OpkrUIVolumeBoost", PERSISTENT},

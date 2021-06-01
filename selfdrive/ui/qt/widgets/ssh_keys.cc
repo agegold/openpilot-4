@@ -288,7 +288,7 @@ void CarForceSet::refreshc() {
 
 
 //UI
-AutoShutdown::AutoShutdown() : AbstractControl("EON 자동 종료", "운행종료 후 설정시간 이후에 자동으로 이온이 꺼집니다.", "../assets/offroad/icon_shell.png") {
+AutoShutdown::AutoShutdown() : AbstractControl("EON 자동 종료", "운행(온로드) 후 시동을 끈 상태(오프로드)에서 설정시간 이후에 자동으로 이온이 꺼집니다.", "../assets/offroad/icon_shell.png") {
 
   label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
   label.setStyleSheet("color: #e0e879");
@@ -369,6 +369,79 @@ void AutoShutdown::refresh() {
   btnminus.setText("－");
   btnplus.setText("＋");
 }
+
+ForceShutdown::ForceShutdown() : AbstractControl("EON 강제 종료(오프로드Only)", "운행을 하지 않고(온로드 진입X) 오프로드상태에서 화면이 꺼진경우 일정시간 이후에 강제로 꺼지게 합니다. 화면이 다시 켜진경우 꺼지는 시간이 리셋됩니다.", "../assets/offroad/icon_shell.png") {
+
+  label.setAlignment(Qt::AlignVCenter|Qt::AlignRight);
+  label.setStyleSheet("color: #e0e879");
+  hlayout->addWidget(&label);
+
+  btnminus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnplus.setStyleSheet(R"(
+    padding: 0;
+    border-radius: 50px;
+    font-size: 35px;
+    font-weight: 500;
+    color: #E4E4E4;
+    background-color: #393939;
+  )");
+  btnminus.setFixedSize(150, 100);
+  btnplus.setFixedSize(150, 100);
+  hlayout->addWidget(&btnminus);
+  hlayout->addWidget(&btnplus);
+
+  QObject::connect(&btnminus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("OpkrForceShutdown"));
+    int value = str.toInt();
+    value = value - 1;
+    if (value <= 0 ) {
+      value = 0;
+    }
+    QString values = QString::number(value);
+    params.put("OpkrForceShutdown", values.toStdString());
+    refresh();
+  });
+  
+  QObject::connect(&btnplus, &QPushButton::released, [=]() {
+    auto str = QString::fromStdString(params.get("OpkrForceShutdown"));
+    int value = str.toInt();
+    value = value + 1;
+    if (value >= 5 ) {
+      value = 5;
+    }
+    QString values = QString::number(value);
+    params.put("OpkrForceShutdown", values.toStdString());
+    refresh();
+  });
+  refresh();
+}
+
+void ForceShutdown::refresh() {
+  QString option = QString::fromStdString(params.get("OpkrForceShutdown"));
+  if (option == "0") {
+    label.setText(QString::fromStdString("항상켜기"));
+  } else if (option == "1") {
+    label.setText(QString::fromStdString("1분"));
+  } else if (option == "2") {
+    label.setText(QString::fromStdString("3분"));
+  } else if (option == "3") {
+    label.setText(QString::fromStdString("5분"));
+  } else if (option == "4") {
+    label.setText(QString::fromStdString("10분"));
+  } else if (option == "5") {
+    label.setText(QString::fromStdString("30분"));
+  }
+  btnminus.setText("－");
+  btnplus.setText("＋");
+}
+
 
 VolumeControl::VolumeControl() : AbstractControl("EON 볼륨 조절(%)", "EON의 볼륨을 조절합니다. 안드로이드 기본값/수동설정", "../assets/offroad/icon_shell.png") {
 

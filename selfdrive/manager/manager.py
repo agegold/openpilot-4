@@ -38,6 +38,7 @@ def manager_init():
     ("OpenpilotEnabledToggle", "1"),
     ("IsOpenpilotViewEnabled", "0"),
     ("OpkrAutoShutdown", "2"),
+    ("OpkrForceShutdown", "0"),
     ("OpkrAutoScreenOff", "0"),
     ("OpkrUIBrightness", "0"),
     ("OpkrUIBrightness", "0"),
