@@ -133,7 +133,7 @@ class SpdctrlLong(SpdController):
             self.seq_step_debug = "속도유지"
         elif lead_objspd < 0 and int(CS.clu_Vanz * 0.5) >= dRel > 1 and not self.map_decel_only:
             self.seq_step_debug = "일반감속,-1"
-            lead_wait_cmd, l=e2d_set_speed = self.get_tm_speed( CS, 50, -1)
+            lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 50, -1)
         elif self.map_decel_only and self.cruise_set_speed_kph > int(round(CS.VSetDis)) and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
             self.seq_step_debug = "속도원복"
             lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 30, 1)
