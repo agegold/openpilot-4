@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include "selfdrive/hardware/hw.h"
+#include "selfdrive/common/params.h"
 
 MainWindow::MainWindow(QWidget *parent) : QWidget(parent) {
   main_layout = new QStackedLayout;
@@ -65,6 +66,7 @@ void MainWindow::openSettings() {
 void MainWindow::closeSettings() {
   if(onboardingDone) {
     main_layout->setCurrentWidget(homeWindow);
+    Params().put("OpkrForceShutdownTrigger", "1", 1);
   }
 }
 
@@ -78,6 +80,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event){
   // wake screen on tap
   if (event->type() == QEvent::MouseButtonPress) {
     device.setAwake(true, true);
+    Params().put("OpkrForceShutdownTrigger", "0", 1);
   }
 
 #ifdef QCOM
