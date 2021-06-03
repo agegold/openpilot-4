@@ -98,7 +98,10 @@ class SpdctrlLong(SpdController):
             self.seq_step_debug = "정차차량 감속"
             lead_wait_cmd, lead_set_speed = self.get_tm_speed(CS, max(20, dRel-30), -10)
         elif self.cruise_set_speed_kph > int(round((CS.clu_Vanz))) and not self.map_decel_only:  #이온설정속도가 차량속도보다 큰경우
-            if 20 > dRel > 3 and lead_objspd > 5 and CS.clu_Vanz <= 25 and CS.VSetDis < 55 and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
+            if 10 > dRel > 3 and lead_objspd <= 0 and 1 < int(CS.clu_Vanz) <= 7 and CS.VSetDis < 45 and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
+                self.seq_step_debug = "출발속도조정"
+                lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 8, 5)
+            elif 20 > dRel > 3 and lead_objspd > 5 and CS.clu_Vanz <= 25 and CS.VSetDis < 55 and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
                 self.seq_step_debug = "SS>VS,출발"
                 lead_wait_cmd, lead_set_speed = self.get_tm_speed( CS, 50, 1)
             elif lead_objspd > 0 and int(CS.clu_Vanz)+lead_objspd >= int(CS.VSetDis) and int(CS.clu_Vanz*0.35) < dRel < 149 and ((int(round(self.target_speed)) > int(CS.VSetDis) and self.target_speed != 0) or self.target_speed == 0):
