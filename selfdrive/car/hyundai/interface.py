@@ -22,7 +22,7 @@ class CarInterface(CarInterfaceBase):
 
   @staticmethod
   def compute_gb(accel, speed):
-    return float(accel) / 3.5
+    return float(accel) / 3.0
 
   @staticmethod
   def get_params(candidate, fingerprint=gen_empty_fingerprint(), car_fw=[]):  # pylint: disable=dangerous-default-value
@@ -218,14 +218,14 @@ class CarInterface(CarInterfaceBase):
     ret.brakeMaxV = [0.7, 3.0]   # max brake allowed
 
     ret.longitudinalTuning.kpBP = [0., 4., 9., 17., 23., 31.]
-    ret.longitudinalTuning.kpV = [1.3, 1.0, 0.6, 0.4, 0.3, 0.2]
+    ret.longitudinalTuning.kpV = [0.8, 1.2, 0.9, 0.54, 0.3, 0.2]
     ret.longitudinalTuning.kiBP = [0., 4., 9., 17., 23., 31.]
-    ret.longitudinalTuning.kiV = [0.05, 0.1, 0.05, 0.04, 0.03, 0.02]
+    ret.longitudinalTuning.kiV = [0.02, 0.05, 0.045, 0.03, 0.02, 0.01]
 
-    ret.longitudinalTuning.deadzoneBP = [0., 9., 17.]
-    ret.longitudinalTuning.deadzoneV = [0., 0.005, 0.01]
+    ret.longitudinalTuning.deadzoneBP = [0., 9.]
+    ret.longitudinalTuning.deadzoneV = [0., 0.1]
     ret.longitudinalTuning.kdBP = [0., 4., 9., 17., 23., 31.]
-    ret.longitudinalTuning.kdV = [0.5, 0.6, 0.5, 0.4, 0.3, 0.2]
+    ret.longitudinalTuning.kdV = [1.5, 1.5, 1.4, 1.0, 0.9, 0.8]
 
     ret.enableCamera = True
     ret.enableBsm = 0x58b in fingerprint[0]

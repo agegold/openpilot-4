@@ -25,8 +25,8 @@ AWARENESS_DECEL = -0.2     # car smoothly decel at .2m/s^2 when user is distract
 # lookup tables VS speed to determine min and max accels in cruise
 # make sure these accelerations are smaller than mpc limits
 #_A_CRUISE_MIN_V_FOLLOWING = [-3.5, -3.5, -3.5, -2.5, -1.5]
-_A_CRUISE_MIN_V_FOLLOWING = [-1.75, -1.5, -1.5, -1.0, -.5]
-_A_CRUISE_MIN_V = [-1.5, -1.25, -1.25, -.8, -.4]
+_A_CRUISE_MIN_V_FOLLOWING = [-1.75, -1.5, -1.5, -1.0, -0.5]
+_A_CRUISE_MIN_V = [-1.5, -1.25, -1.25, -.7, -.4]
 _A_CRUISE_MIN_BP = [  0.,  5.,  10., 20.,  40.]
 
 # need fast accel at very low speed for stop and go
@@ -127,7 +127,6 @@ class Planner():
     self.target_speed_map_dist = 0
     self.target_speed_map_block = False
     self.target_speed_map_sign = False
-    self.tartget_speed_offset = int(self.params.get("OpkrSpeedLimitOffset", encoding="utf8"))
     self.vego = 0
 
   def choose_solution(self, v_cruise_setpoint, enabled, model_enabled):
@@ -168,7 +167,7 @@ class Planner():
     self.vego = v_ego
 
     long_control_state = sm['controlsState'].longControlState
-    if CP.sccBus == 2:
+    if CP.sccBus != 0:
       v_cruise_kph = sm['carState'].vSetDis
     else:
       v_cruise_kph = sm['controlsState'].vCruise
