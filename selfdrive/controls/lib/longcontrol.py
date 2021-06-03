@@ -130,7 +130,7 @@ class LongControl():
       # Keep applying brakes until the car is stopped
       factor = 1
       if hasLead:
-        factor = interp(dRel,[2.0,4.0,5.0,6.0,7.0,8.0], [3.0,1.0,0.7,0.5,0.3,0.0])
+        factor = interp(dRel,[2.0,4.0,5.0,6.0,7.0,8.0], [2.0,1.0,0.7,0.5,0.3,0.0])
       if not CS.standstill or output_gb > -BRAKE_STOPPING_TARGET:
         output_gb -= CP.stoppingBrakeRate / RATE * factor
       elif CS.cruiseState.standstill and output_gb < -BRAKE_STOPPING_TARGET:
@@ -163,7 +163,7 @@ class LongControl():
     else:
       self.long_stat = "---"
 
-    if CP.sccBus == 2 and Params().get_bool("LongLogDisplay"):
+    if CP.sccBus != 0 and Params().get_bool("LongLogDisplay"):
       str_log3 = 'MDPS={:1.0f}  SCC={:1.0f}  LS={:s}  GS={:01.2f}/{:01.2f}  BK={:01.2f}/{:01.2f}  GB={:+04.2f}  TG={:+04.2f}  G={:1.0f}  GS={}'.format(CP.mdpsBus, CP.sccBus, self.long_stat, final_gas, gas_max, abs(final_brake), abs(brake_max), output_gb, a_target_raw, CS.cruiseGapSet, int(CS.gasPressed))
       trace1.printf2('{}'.format(str_log3))
 
