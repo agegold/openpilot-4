@@ -201,6 +201,10 @@ class Planner():
         mapspeed = self.params.get("LimitSetSpeedCamera", encoding="utf8")
         mapspeeddist = self.params.get("LimitSetSpeedCameraDist", encoding="utf8")
         self.map_sign = self.params.get("OpkrMapSign", encoding="utf8")
+        if self.map_sign is not None:
+          self.map_sign = int(float(self.map_sign.rstrip('\n')))
+        else:
+          self.map_sign = 0
         if mapspeed is not None and mapspeeddist is not None:
           mapspeed = int(float(mapspeed.rstrip('\n')))
           mapspeeddist = int(float(mapspeeddist.rstrip('\n')))
