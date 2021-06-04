@@ -62,6 +62,7 @@ class LongControl():
     self.pid = LongPIDController((CP.longitudinalTuning.kpBP, CP.longitudinalTuning.kpV),
                                  (CP.longitudinalTuning.kiBP, CP.longitudinalTuning.kiV),
                                  (CP.longitudinalTuning.kdBP, CP.longitudinalTuning.kdV),
+                                 (CP.longitudinalTuning.kfBP, CP.longitudinalTuning.kfV),
                                  rate=RATE,
                                  sat_limit=0.8,
                                  convert=compute_gb)

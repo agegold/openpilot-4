@@ -107,12 +107,12 @@ class LatPIDController():
 
 
 class LongPIDController:
-  def __init__(self, k_p, k_i, k_d, k_f=1., pos_limit=None, neg_limit=None, rate=100, sat_limit=0.8, convert=None):
+  def __init__(self, k_p, k_i, k_d, k_f, pos_limit=None, neg_limit=None, rate=100, sat_limit=0.8, convert=None):
     self.op_params = opParams()
     self._k_p = k_p  # proportional gain
     self._k_i = k_i  # integral gain
     self._k_d = k_d  # derivative gain
-    self.k_f = k_f  # feedforward gain
+    self._k_f = k_f  # feedforward gain
 
     self.max_accel_d = 0.4 * CV.MPH_TO_MS
 
@@ -138,6 +138,10 @@ class LongPIDController:
   @property
   def k_d(self):
     return interp(self.speed, self._k_d[0], self._k_d[1])
+
+  @property
+  def k_f(self):
+    return interp(self.speed, self._k_f[0], self._k_f[1])
 
   def _check_saturation(self, control, check_saturation, error):
     saturated = (control < self.neg_limit) or (control > self.pos_limit)
