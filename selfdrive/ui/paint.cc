@@ -423,6 +423,7 @@ static void ui_draw_debug(UIState *s)
         ui_print(s, ui_viz_rx, ui_viz_ry+650, "LP:model");
       }
     }
+    ui_print(s, ui_viz_rx, ui_viz_ry+700, "MS:%d", scene.mapSign);
     nvgFontSize(s->vg, 40);
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
     if (scene.lateralControlMethod == 0) {

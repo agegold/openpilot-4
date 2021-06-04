@@ -95,6 +95,7 @@ def manager_init():
     ("OpkrSpeedLimitOffset", "0"),
     ("LimitSetSpeedCamera", "0"),
     ("LimitSetSpeedCameraDist", "0"),
+    ("OpkrMapSign", "0"),
     ("OpkrLiveSteerRatio", "1"),
     ("OpkrVariableSteerMax", "1"),
     ("OpkrVariableSteerDelta", "0"),

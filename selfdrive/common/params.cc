@@ -275,6 +275,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"OpkrSpeedLimitOffset", PERSISTENT},
     {"LimitSetSpeedCamera", PERSISTENT},
     {"LimitSetSpeedCameraDist", PERSISTENT},
+    {"OpkrMapSign", PERSISTENT},
     {"OpkrLiveSteerRatio", PERSISTENT},
     {"OpkrVariableSteerMax", PERSISTENT},
     {"OpkrVariableSteerDelta", PERSISTENT},

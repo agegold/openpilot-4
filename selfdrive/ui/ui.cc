@@ -159,6 +159,7 @@ static void update_state(UIState *s) {
 
     scene.limitSpeedCamera = scene.controls_state.getLimitSpeedCamera();
     scene.limitSpeedCameraDist = scene.controls_state.getLimitSpeedCameraDist();
+    scene.mapSign = scene.controls_state.getMapSign();
     scene.steerRatio = scene.controls_state.getSteerRatio();
     scene.long_plan_source = scene.controls_state.getLongPlanSource();
   }
@@ -382,6 +383,7 @@ static void update_status(UIState *s) {
       Params().put("OpkrMapEnable", "0", 1);
       Params().put("LimitSetSpeedCamera", "0", 1);
       Params().put("LimitSetSpeedCameraDist", "0", 1);
+      Params().put("OpkrMapSign", "0", 1);
     } else {
       s->vipc_client->connected = false;
     }
