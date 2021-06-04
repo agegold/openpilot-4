@@ -189,7 +189,7 @@ class Planner():
         self.target_speed_map_counter_check = True
         os.system("logcat -d -s opkrspdlimit,opkrspd2limit | grep opkrspd | tail -n 1 | awk \'{print $7}\' > /data/params/d/LimitSetSpeedCamera &")
         os.system("logcat -d -s opkrspddist | grep opkrspd | tail -n 1 | awk \'{print $7}\' > /data/params/d/LimitSetSpeedCameraDist &")
-        os.system("logcat -d -s opkrsigntype | tail -n 1 | awk \'{print $7}\' > /data/params/d/OpkrMapSign &")
+        # os.system("logcat -d -s opkrsigntype | tail -n 1 | awk \'{print $7}\' > /data/params/d/OpkrMapSign &")
         self.target_speed_map_counter3 += 1
         if self.target_speed_map_counter3 > 2:
           self.target_speed_map_counter3 = 0
@@ -201,10 +201,10 @@ class Planner():
         mapspeed = self.params.get("LimitSetSpeedCamera", encoding="utf8")
         mapspeeddist = self.params.get("LimitSetSpeedCameraDist", encoding="utf8")
         self.map_sign = self.params.get("OpkrMapSign", encoding="utf8")
-        if self.map_sign is not None:
-          self.map_sign = int(float(self.map_sign.rstrip('\n')))
-        else:
-          self.map_sign = 0
+        # if self.map_sign is not None:
+        #   self.map_sign = int(float(self.map_sign.rstrip('\n')))
+        # else:
+        #   self.map_sign = 0
         if mapspeed is not None and mapspeeddist is not None:
           mapspeed = int(float(mapspeed.rstrip('\n')))
           mapspeeddist = int(float(mapspeeddist.rstrip('\n')))
