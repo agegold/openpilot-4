@@ -9,9 +9,9 @@ from common.stat_live import RunningStatFilter
 from common.params import Params
 
 EnableDriverMonitoring = Params().get_bool("OpkrEnableDriverMonitoring")
-MonitorEyesThreshold = int(Params().get("OpkrMonitorEyesThreshold")) * 0.01
-NormalEyesThreshold = int(Params().get("OpkrMonitorNormalEyesThreshold")) * 0.01
-BlinkThreshold = int(Params().get("OpkrMonitorBlinkThreshold")) * 0.01
+MonitorEyesThreshold = int(Params().get("OpkrMonitorEyesThreshold", encoding="utf8")) * 0.01
+NormalEyesThreshold = int(Params().get("OpkrMonitorNormalEyesThreshold", encoding="utf8")) * 0.01
+BlinkThreshold = int(Params().get("OpkrMonitorBlinkThreshold", encoding="utf8")) * 0.01
 EventName = car.CarEvent.EventName
 
 # ******************************************************************************************
@@ -20,10 +20,10 @@ EventName = car.CarEvent.EventName
 #  We recommend that you do not change these numbers from the defaults.
 # ******************************************************************************************
 
-_AWARENESS_TIME = 35.  # passive wheel touch total timeout
+_AWARENESS_TIME = 30000.  # passive wheel touch total timeout
 _AWARENESS_PRE_TIME_TILL_TERMINAL = 12.
 _AWARENESS_PROMPT_TIME_TILL_TERMINAL = 6.
-_DISTRACTED_TIME = 11. if EnableDriverMonitoring else 36000.
+_DISTRACTED_TIME = 11. if EnableDriverMonitoring else 30000.
 _DISTRACTED_PRE_TIME_TILL_TERMINAL = 8.
 _DISTRACTED_PROMPT_TIME_TILL_TERMINAL = 6.
 
@@ -133,7 +133,10 @@ class DriverStatus():
     self._set_timers(active_monitoring=True)
 
   def _set_timers(self, active_monitoring):
-    self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    try:
+      self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    except:
+      pass
     if self.monitoring_mode == 1:
       self.threshold_prompt = 7. / 9.
     if self.active_monitoring_mode and self.awareness <= self.threshold_prompt:
@@ -175,7 +178,10 @@ class DriverStatus():
       self.active_monitoring_mode = False
 
   def _is_driver_distracted(self, pose, blink):
-    self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    try:
+      self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    except:
+      pass
     if not self.pose_calibrated:
       pitch_error = pose.pitch - _PITCH_NATURAL_OFFSET
       yaw_error = pose.yaw - _YAW_NATURAL_OFFSET
@@ -205,7 +211,10 @@ class DriverStatus():
         return DistractedType.NOT_DISTRACTED
 
   def set_policy(self, model_data):
-    self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    try:
+      self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    except:
+      pass
     ep = min(model_data.meta.engagedProb, 0.8) / 0.8
     self.pose.cfactor = interp(ep, [0, 0.5, 1], [_METRIC_THRESHOLD_STRICT, _METRIC_THRESHOLD, _METRIC_THRESHOLD_SLACK])/_METRIC_THRESHOLD
     if self.monitoring_mode == 1:
@@ -214,7 +223,10 @@ class DriverStatus():
       self.blink.cfactor = interp(ep, [0, 0.5, 1], [_BLINK_THRESHOLD_STRICT, _BLINK_THRESHOLD, _BLINK_THRESHOLD_SLACK])/_BLINK_THRESHOLD
 
   def get_pose(self, driver_state, cal_rpy, car_speed, op_engaged):
-    self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    try:
+      self.monitoring_mode = int(Params().get("OpkrMonitoringMode", encoding="utf8")) if Params().get("OpkrMonitoringMode", encoding="utf8") is not None else 0
+    except:
+      pass
     if not all(len(x) > 0 for x in [driver_state.faceOrientation, driver_state.facePosition,
                                     driver_state.faceOrientationStd, driver_state.facePositionStd]):
       return
