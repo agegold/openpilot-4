@@ -674,7 +674,7 @@ class Controls:
     controlsState.alertTextMsg2 = self.log_alertTextMsg2
     controlsState.limitSpeedCamera = float(self.sm['longitudinalPlan'].targetSpeedCamera)
     controlsState.limitSpeedCameraDist = float(self.sm['longitudinalPlan'].targetSpeedCameraDist)
-    controlsState.mapSign = int(self.sm['longitudinalPlan'].mapSign)
+    controlsState.mapSign = float(self.sm['longitudinalPlan'].mapSign)
     controlsState.lateralControlMethod = int(self.lateral_control_method)
     controlsState.steerRatio = float(self.steerRatio_to_send)
 

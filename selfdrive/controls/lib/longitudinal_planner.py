@@ -189,7 +189,7 @@ class Planner():
         self.target_speed_map_counter_check = True
         os.system("logcat -d -s opkrspdlimit,opkrspd2limit | grep opkrspd | tail -n 1 | awk \'{print $7}\' > /data/params/d/LimitSetSpeedCamera &")
         os.system("logcat -d -s opkrspddist | grep opkrspd | tail -n 1 | awk \'{print $7}\' > /data/params/d/LimitSetSpeedCameraDist &")
-        # os.system("logcat -d -s opkrsigntype | tail -n 1 | awk \'{print $7}\' > /data/params/d/OpkrMapSign &")
+        os.system("logcat -d -s opkrsigntype | tail -n 1 | awk \'{print $7}\' > /data/params/d/OpkrMapSign &")
         self.target_speed_map_counter3 += 1
         if self.target_speed_map_counter3 > 2:
           self.target_speed_map_counter3 = 0
@@ -198,16 +198,25 @@ class Planner():
         self.target_speed_map_counter1 = 0
         self.target_speed_map_counter = 0
         self.target_speed_map_counter_check = False
-        mapspeed = self.params.get("LimitSetSpeedCamera", encoding="utf8")
-        mapspeeddist = self.params.get("LimitSetSpeedCameraDist", encoding="utf8")
-        self.map_sign = self.params.get("OpkrMapSign", encoding="utf8")
-        # if self.map_sign is not None:
-        #   self.map_sign = int(float(self.map_sign.rstrip('\n')))
-        # else:
-        #   self.map_sign = 0
+        try:
+          mapspeed = self.params.get("LimitSetSpeedCamera", encoding="utf8")
+          mapspeeddist = self.params.get("LimitSetSpeedCameraDist", encoding="utf8")
+          self.map_sign = self.params.get("OpkrMapSign", encoding="utf8")
+        except:
+          pass
+        if self.map_sign is not None:
+          try:
+            self.map_sign = int(float(self.map_sign.rstrip('\n')))
+          except:
+            pass
+        else:
+          self.map_sign = 0
         if mapspeed is not None and mapspeeddist is not None:
-          mapspeed = int(float(mapspeed.rstrip('\n')))
-          mapspeeddist = int(float(mapspeeddist.rstrip('\n')))
+          try:
+            mapspeed = int(float(mapspeed.rstrip('\n')))
+            mapspeeddist = int(float(mapspeeddist.rstrip('\n')))
+          except:
+            pass
           if mapspeed > 29:
             self.target_speed_map = mapspeed
             self.target_speed_map_dist = mapspeeddist
@@ -339,7 +348,7 @@ class Planner():
     longitudinalPlan.yRel2 = float(lead_2.yRel)
     longitudinalPlan.vRel2 = float(lead_2.vRel)
     longitudinalPlan.status2 = bool(lead_2.status)
-    longitudinalPlan.mapSign = int(self.map_sign)
+    longitudinalPlan.mapSign = float(self.map_sign)
     cam_distance_calc = 0
     cam_distance_calc = interp(self.vego*CV.MS_TO_KPH, [30,60,100,160], [3.75,5.5,6,7])
     consider_speed = interp((self.vego*CV.MS_TO_KPH - self.target_speed_map), [10, 30], [1, 1.3])
