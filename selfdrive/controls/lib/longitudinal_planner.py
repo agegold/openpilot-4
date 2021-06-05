@@ -124,7 +124,7 @@ class Planner():
     self.target_speed_map_dist = 0
     self.target_speed_map_block = False
     self.target_speed_map_sign = False
-    self.map_sign = 0
+    self.map_sign = 0.0
     self.vego = 0
 
   def choose_solution(self, v_cruise_setpoint, enabled, model_enabled):
@@ -201,16 +201,18 @@ class Planner():
         try:
           mapspeed = self.params.get("LimitSetSpeedCamera", encoding="utf8")
           mapspeeddist = self.params.get("LimitSetSpeedCameraDist", encoding="utf8")
-          self.map_sign = self.params.get("OpkrMapSign", encoding="utf8")
+          mapsign = self.params.get("OpkrMapSign", encoding="utf8")
         except:
           pass
-        if self.map_sign is not None:
+        if mapsign is not None:
           try:
-            self.map_sign = int(float(self.map_sign.rstrip('\n')))
+            mapsign = int(float(mapsign.rstrip('\n')))
+            self.map_sign = mapsign
           except:
             pass
         else:
-          self.map_sign = 0
+          mapsign = 0
+          self.map_sign = mapsign
         if mapspeed is not None and mapspeeddist is not None:
           try:
             mapspeed = int(float(mapspeed.rstrip('\n')))
