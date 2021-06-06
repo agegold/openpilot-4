@@ -108,8 +108,8 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
     return;
   }
 
-  QString url = "https://api.commadotai.com/v1/devices/" + dongleId + "/owner";
-  RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_Owner", 86400); // 6
+  QString url = "https://api.retropilot.org/v1/devices/" + dongleId + "/owner";
+  RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_Owner", 3600); // 6
   QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &PrimeUserWidget::replyFinished);
 }
 
@@ -240,8 +240,8 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
 
   // set up API requests
   QString dongleId = QString::fromStdString(Params().get("DongleId"));
-  QString url = "https://api.commadotai.com/v1.1/devices/" + dongleId + "/";
-  RequestRepeater* repeater = new RequestRepeater(this, url, "ApiCache_Device", 86400); // 5
+  QString url = "https://api.retropilot.org/v1.1/devices/" + dongleId + "/";
+  RequestRepeater* repeater = new RequestRepeater(this, url, "ApiCache_Device", 3600); // 5
 
   QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &SetupWidget::replyFinished);
   QObject::connect(repeater, &RequestRepeater::failedResponse, this, &SetupWidget::parseError);
