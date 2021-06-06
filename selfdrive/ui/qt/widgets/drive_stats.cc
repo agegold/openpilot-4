@@ -62,7 +62,7 @@ DriveStats::DriveStats(QWidget* parent) : QWidget(parent) {
 
   QString dongleId = QString::fromStdString(Params().get("DongleId"));
   QString url = "https://api.retropilot.org/v1.1/devices/" + dongleId + "/stats";
-  RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_DriveStats", 3600); // 30
+  RequestRepeater *repeater = new RequestRepeater(this, url, "ApiCache_DriveStats", 30); // 30
   QObject::connect(repeater, &RequestRepeater::receivedResponse, this, &DriveStats::parseResponse);
 
   setLayout(gl);
