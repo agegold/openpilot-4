@@ -4,7 +4,7 @@ from selfdrive.manager.process import PythonProcess, NativeProcess, DaemonProces
 from selfdrive.hardware import EON, TICI, PC
 from common.params import Params
 
-WEBCAM = os.getenv("WEBCAM") is not None
+WEBCAM = os.getenv("USE_WEBCAM") is not None
 
 EnableLogger = Params().get_bool('OpkrEnableLogger')
 EnableUploader = Params().get_bool('OpkrEnableUploader')
