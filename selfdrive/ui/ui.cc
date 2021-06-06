@@ -262,6 +262,12 @@ static void update_state(UIState *s) {
     scene.longitudinal_control = sm["carParams"].getCarParams().getOpenpilotLongitudinalControl();
     scene.steerMax_V = sm["carParams"].getCarParams().getSteerMaxV()[0];
   }
+  if (sm.updated("driverState")) {
+    scene.driver_state = sm["driverState"].getDriverState();
+  }
+  if (sm.updated("driverMonitoringState")) {
+    scene.dmonitoring_state = sm["driverMonitoringState"].getDriverMonitoringState();
+  }
   if (sm.updated("sensorEvents")) {
     for (auto sensor : sm["sensorEvents"].getSensorEvents()) {
       if (!scene.started && sensor.which() == cereal::SensorEventData::ACCELERATION) {
