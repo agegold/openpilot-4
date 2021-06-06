@@ -39,6 +39,12 @@ HomeWindow::HomeWindow(QWidget* parent) : QWidget(parent) {
   slayout->addWidget(home);
   QObject::connect(this, &HomeWindow::openSettings, home, &OffroadHome::refresh);
 
+  driver_view = new DriverViewWindow(this);
+  connect(driver_view, &DriverViewWindow::done, [=] {
+    showDriverView(false);
+  });
+  slayout->addWidget(driver_view);
+
   setLayout(layout);
 }
 
@@ -46,20 +52,26 @@ void HomeWindow::offroadTransition(bool offroad) {
   if (offroad) {
     slayout->setCurrentWidget(home);
   } else {
+    if (onroad->map != nullptr){
+      onroad->map->setVisible(!Params().get("NavDestination").empty());
+    }
     slayout->setCurrentWidget(onroad);
   }
   sidebar->setVisible(offroad);
   emit offroadTransitionSignal(offroad);
 }
 
-void HomeWindow::mousePressEvent(QMouseEvent* e) {
-  // TODO: make a nice driver view widget
-  if (QUIState::ui_state.scene.driver_view && !rec_btn.ptInRect(e->x(), e->y())) {
-    Params().putBool("IsDriverViewEnabled", false);
-    QUIState::ui_state.scene.driver_view = false;
-    return;
+void HomeWindow::showDriverView(bool show) {
+  if (show) {
+    emit closeSettings();
+    slayout->setCurrentWidget(driver_view);
+  } else {
+    slayout->setCurrentWidget(home);
   }
+  sidebar->setVisible(show == false);
+}
 
+void HomeWindow::mousePressEvent(QMouseEvent* e) {
   // OPKR add map
   if (QUIState::ui_state.scene.started && map_overlay_btn.ptInRect(e->x(), e->y())) {
     QSoundEffect effect1;
