@@ -52,7 +52,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     manualRestart @30;
     lowSpeedLockout @31;
     plannerError @32;
-    debugAlert @34;
+    joystickDebug @34;
     steerTempUnavailableUserOverride @35;
     resumeRequired @36;
     preDriverDistracted @37;
@@ -107,6 +107,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     roadCameraError @100;
     driverCameraError @101;
     wideRoadCameraError @102;
+    localizerMalfunction @103;
 
     radarCanErrorDEPRECATED @15;
     radarCommIssueDEPRECATED @67;
@@ -127,18 +128,18 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     neosUpdateRequiredDEPRECATED @88;
     modelLagWarningDEPRECATED @93;
     startupOneplusDEPRECATED @82;
-    laneChangeManual @103;
-    emgButtonManual @104;
-    driverSteering @105;
-    modeChangeOpenpilot @106;
-    modeChangeDistcurv @107;
-    modeChangeDistance @108;
-    modeChangeOneway @109;
-    modeChangeMaponly @110;
-    needBrake @111;
-    standStill @112;
-    modelLongAlert @113;
-	isgActive @114;
+    laneChangeManual @104;
+    emgButtonManual @105;
+    driverSteering @106;
+    modeChangeOpenpilot @107;
+    modeChangeDistcurv @108;
+    modeChangeDistance @109;
+    modeChangeOneway @110;
+    modeChangeMaponly @111;
+    needBrake @112;
+    standStill @113;
+    modelLongAlert @114;
+	isgActive @115;
   }
 }
 
@@ -410,6 +411,7 @@ struct CarParams {
   enableDsu @5 :Bool; # driving support unit
   enableApgs @6 :Bool; # advanced parking guidance system
   enableBsm @56 :Bool; # blind spot monitoring
+  hasStockCamera @57 :Bool; # factory LKAS/LDW camera is present
 
   minEnableSpeed @7 :Float32;
   minSteerSpeed @8 :Float32;
@@ -470,17 +472,17 @@ struct CarParams {
   communityFeature @46: Bool;  # true if a community maintained feature is detected
   fingerprintSource @49: FingerprintSource;
   networkLocation @50 :NetworkLocation;  # Where Panda/C2 is integrated into the car's CAN network
-  mdpsBus @57: Int8;
-  sasBus @58: Int8;
-  sccBus @59: Int8;
-  fcaBus @60: Int8;
-  bsmAvailable @61: Bool;
-  lfaAvailable @62: Bool;
-  lvrAvailable @63: Bool;
-  evgearAvailable @64: Bool;
-  emsAvailable @65: Bool;
-  standStill @66: Bool;
-  vCruisekph @67: Float32;
+  mdpsBus @58: Int8;
+  sasBus @59: Int8;
+  sccBus @60: Int8;
+  fcaBus @61: Int8;
+  bsmAvailable @62: Bool;
+  lfaAvailable @63: Bool;
+  lvrAvailable @64: Bool;
+  evgearAvailable @65: Bool;
+  emsAvailable @66: Bool;
+  standStill @67: Bool;
+  vCruisekph @68: Float32;
 
   struct LateralParams {
     torqueBP @0 :List(Int32);
@@ -579,6 +581,7 @@ struct CarParams {
     automatic @1;  # Traditional auto, including DSG
     manual @2;  # True "stick shift" only
     direct @3;  # Electric vehicle or other direct drive
+    cvt @4;
   }
 
   struct CarFw {
