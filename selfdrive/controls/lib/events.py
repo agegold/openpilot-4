@@ -246,7 +246,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       Priority.LOW, VisualAlert.none, AudibleAlert.chimeWarning1, .4, 0., 2.),
   },
 
-  EventName.joystickDebug: {
+  EventName.debugAlert: {
     ET.PERMANENT: Alert(
       "DEBUG ALERT",
       "",
