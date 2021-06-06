@@ -63,7 +63,7 @@ class Controls:
 
     self.sm = sm
     if self.sm is None:
-      ignore = ['driverCameraState', 'managerState'] if SIMULATION else ['driverCameraState', 'driverMonitoringState']
+      ignore = ['driverCameraState', 'managerState'] if SIMULATION else ['driverCameraState', 'driverMonitoringState', 'driverState']
       self.sm = messaging.SubMaster(['deviceState', 'pandaState', 'modelV2', 'liveCalibration',
                                      'driverMonitoringState', 'longitudinalPlan', 'lateralPlan', 'liveLocationKalman',
                                      'roadCameraState', 'driverCameraState', 'managerState', 'liveParameters', 'radarState'] + self.camera_packets,
