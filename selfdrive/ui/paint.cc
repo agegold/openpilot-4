@@ -671,10 +671,11 @@ static void ui_draw_vision_event(UIState *s) {
   const int bg_wheel_size = 90;
   const int bg_wheel_x = viz_event_x + (viz_event_w-bg_wheel_size);
   const int bg_wheel_y = viz_event_y + (bg_wheel_size/2);
-  const NVGcolor color = bg_colors[s->status];
+  const QColor &color = bg_colors[s->status];
+  NVGcolor nvg_color = nvgRGBA(color.red(), color.green(), color.blue(), color.alpha());
   if (s->scene.controls_state.getEnabled() || s->scene.forceGearD || s->scene.comma_stock_ui){
     float angleSteers = s->scene.car_state.getSteeringAngleDeg();
-    ui_draw_circle_image(s, bg_wheel_x, bg_wheel_y+20, bg_wheel_size, "wheel", color, 1.0f, angleSteers);
+    ui_draw_circle_image(s, bg_wheel_x, bg_wheel_y+20, bg_wheel_size, "wheel", nvg_color, 1.0f, angleSteers);
   } else {
     if (!s->scene.comma_stock_ui) ui_draw_gear(s);
   }
