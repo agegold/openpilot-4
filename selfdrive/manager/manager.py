@@ -132,6 +132,7 @@ def manager_init():
     ("MadModeEnabled", "1"),
     ("OpkrFanSpeedGain", "0"),
     ("WhitePandaSupport", "0"),
+    ("SteerWarningFix", "0"),
   ]
 
   if TICI:

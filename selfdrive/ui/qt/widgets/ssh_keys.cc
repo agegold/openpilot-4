@@ -163,6 +163,8 @@ CarRecognition::CarRecognition() : AbstractControl("차량강제인식", "핑거
   vehicle_select_menu->addAction("SONATA_HEV", [=]() {carname = "SONATA_HEV";});
   vehicle_select_menu->addAction("SONATA19", [=]() {carname = "SONATA19";});
   vehicle_select_menu->addAction("SONATA19_HEV", [=]() {carname = "SONATA19_HEV";});
+  vehicle_select_menu->addAction("SONATA_LF_TURBO", [=]() {carname = "SONATA_LF_TURBO";});
+  vehicle_select_menu->addAction("SONATA_LF_HEV", [=]() {carname = "SONATA_LF_HEV";});
   vehicle_select_menu->addAction("KONA", [=]() {carname = "KONA";});
   vehicle_select_menu->addAction("KONA_EV", [=]() {carname = "KONA_EV";});
   vehicle_select_menu->addAction("KONA_HEV", [=]() {carname = "KONA_HEV";});

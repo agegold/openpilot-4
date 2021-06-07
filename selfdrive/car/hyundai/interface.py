@@ -127,6 +127,13 @@ class CarInterface(CarInterfaceBase):
     elif candidate in [CAR.SONATA19, CAR.SONATA19_HEV]:
       ret.mass = 4497. * CV.LB_TO_KG
       ret.wheelbase = 2.804
+      ret.centerToFront = ret.wheelbase * 0.4
+    elif candidate == CAR.SONATA_LF_TURBO:
+      ret.mass = 1470. + STD_CARGO_KG
+      ret.wheelbase = 2.805
+    elif candidate == CAR.SONATA_LF_HEV:
+      ret.mass = 1595. + STD_CARGO_KG
+      ret.wheelbase = 2.805
     elif candidate == CAR.PALISADE:
       ret.mass = 1999. + STD_CARGO_KG
       ret.wheelbase = 2.90
