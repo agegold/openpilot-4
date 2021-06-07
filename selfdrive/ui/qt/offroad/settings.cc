@@ -396,6 +396,48 @@ void SoftwarePanel::updateLabels() {
       }
     }
   }
+
+  layout()->addWidget(horizontal_line());
+
+  layout()->addWidget(new GitHash());
+  const char* gitpull = "/data/openpilot/gitpull.sh ''";
+  layout()->addWidget(new ButtonControl("Git Pull", "실행", "리모트 Git에서 변경사항이 있으면 로컬에 반영 후 자동 재부팅 됩니다. 변경사항이 없으면 재부팅하지 않습니다. 로컬 파일이 변경된경우 리모트Git 내역을 반영 못할수도 있습니다. 참고바랍니다.",
+                                      [=]() { 
+                                        if (ConfirmationDialog::confirm("Git에서 변경사항 적용 후 자동 재부팅 됩니다. 없으면 재부팅하지 않습니다. 진행하시겠습니까?")){
+                                          std::system(gitpull);
+                                        }
+                                      }));
+
+  layout()->addWidget(horizontal_line());
+
+  const char* git_reset = "/data/openpilot/git_reset.sh ''";
+  layout()->addWidget(new ButtonControl("Git Reset", "실행", "로컬변경사항을 강제 초기화 후 리모트 최신 커밋내역을 적용합니다. 로컬 변경사항이 사라지니 주의 바랍니다.",
+                                      [=]() { 
+                                        if (ConfirmationDialog::confirm("로컬변경사항을 강제 초기화 후 리모트Git의 최신 커밋내역을 적용합니다. 진행하시겠습니까?")){
+                                          std::system(git_reset);
+                                        }
+                                      }));
+
+
+  layout()->addWidget(horizontal_line());
+
+  const char* gitpull_cancel = "/data/openpilot/gitpull_cancel.sh ''";
+  layout()->addWidget(new ButtonControl("Git Pull 취소", "실행", "Git Pull을 취소하고 이전상태로 되돌립니다. 커밋내역이 여러개인경우 최신커밋 바로 이전상태로 되돌립니다.",
+                                      [=]() { 
+                                        if (ConfirmationDialog::confirm("GitPull 이전 상태로 되돌립니다. 진행하시겠습니까?")){
+                                          std::system(gitpull_cancel);
+                                        }
+                                      }));
+
+  layout()->addWidget(horizontal_line());
+
+  const char* panda_flashing = "/data/openpilot/panda_flashing.sh ''";
+  layout()->addWidget(new ButtonControl("판다 플래싱", "실행", "판다플래싱이 진행되면 판다의 녹색LED가 빠르게 깜빡이며 완료되면 자동 재부팅 됩니다. 절대로 장치의 전원을 끄거나 임의로 분리하지 마시기 바랍니다.",
+                                      [=]() {
+                                        if (ConfirmationDialog::confirm("판다플래싱을 진행하시겠습니까?")) {
+                                          std::system(panda_flashing);
+                                        }
+                                      }));
 }
 
 QWidget * network_panel(QWidget * parent) {
@@ -414,53 +456,16 @@ QWidget * network_panel(QWidget * parent) {
                                       [=]() { HardwareEon::launch_tethering(); }));
   layout->addWidget(horizontal_line());
 
+  layout->addWidget(new HotspotOnBootToggle());
+
+  layout->addWidget(horizontal_line());
+
   // SSH key management
   layout->addWidget(new SshToggle());
   layout->addWidget(horizontal_line());
   layout->addWidget(new SshControl());
   layout->addWidget(horizontal_line());
   layout->addWidget(new SshLegacyToggle());
-  layout->addWidget(horizontal_line());
-
-  layout->addWidget(new GitHash());
-  const char* gitpull = "/data/openpilot/gitpull.sh ''";
-  layout->addWidget(new ButtonControl("Git Pull", "실행", "리모트 Git에서 변경사항이 있으면 로컬에 반영 후 자동 재부팅 됩니다. 변경사항이 없으면 재부팅하지 않습니다. 로컬 파일이 변경된경우 리모트Git 내역을 반영 못할수도 있습니다. 참고바랍니다.",
-                                      [=]() { 
-                                        if (ConfirmationDialog::confirm("Git에서 변경사항 적용 후 자동 재부팅 됩니다. 없으면 재부팅하지 않습니다. 진행하시겠습니까?")){
-                                          std::system(gitpull);
-                                        }
-                                      }));
-
-  layout->addWidget(horizontal_line());
-
-  const char* git_reset = "/data/openpilot/git_reset.sh ''";
-  layout->addWidget(new ButtonControl("Git Reset", "실행", "로컬변경사항을 강제 초기화 후 리모트 최신 커밋내역을 적용합니다. 로컬 변경사항이 사라지니 주의 바랍니다.",
-                                      [=]() { 
-                                        if (ConfirmationDialog::confirm("로컬변경사항을 강제 초기화 후 리모트Git의 최신 커밋내역을 적용합니다. 진행하시겠습니까?")){
-                                          std::system(git_reset);
-                                        }
-                                      }));
-
-
-  layout->addWidget(horizontal_line());
-
-  const char* gitpull_cancel = "/data/openpilot/gitpull_cancel.sh ''";
-  layout->addWidget(new ButtonControl("Git Pull 취소", "실행", "Git Pull을 취소하고 이전상태로 되돌립니다. 커밋내역이 여러개인경우 최신커밋 바로 이전상태로 되돌립니다.",
-                                      [=]() { 
-                                        if (ConfirmationDialog::confirm("GitPull 이전 상태로 되돌립니다. 진행하시겠습니까?")){
-                                          std::system(gitpull_cancel);
-                                        }
-                                      }));
-
-  layout->addWidget(horizontal_line());
-
-  const char* panda_flashing = "/data/openpilot/panda_flashing.sh ''";
-  layout->addWidget(new ButtonControl("판다 플래싱", "실행", "판다플래싱이 진행되면 판다의 녹색LED가 빠르게 깜빡이며 완료되면 자동 재부팅 됩니다. 절대로 장치의 전원을 끄거나 임의로 분리하지 마시기 바랍니다.",
-                                      [=]() {
-                                        if (ConfirmationDialog::confirm("판다플래싱을 진행하시겠습니까?")) {
-                                          std::system(panda_flashing);
-                                        }
-                                      }));
 
   layout->addStretch(1);
 
@@ -489,7 +494,6 @@ QWidget * user_panel(QWidget * parent) {
   layout->addWidget(new ChargingMax());
   layout->addWidget(new FanSpeedGain());
   layout->addWidget(new DrivingRecordToggle());
-  layout->addWidget(new HotspotOnBootToggle());
   layout->addWidget(new RecordCount());
   layout->addWidget(new RecordQuality());
   const char* record_del = "rm -f /storage/emulated/0/videos/*";
