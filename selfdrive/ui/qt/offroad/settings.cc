@@ -360,7 +360,7 @@ void SoftwarePanel::updateLabels() {
     layout()->addWidget(versionLbl);
     layout()->addWidget(horizontal_line());
 
-    lastUpdateTimeLbl = new LabelControl("업데이트 확인", lastUpdateTime, "업데이트 확인 완료. 업데이터는 오프로드 상태에서만 동작합니다.");
+    lastUpdateTimeLbl = new LabelControl("Last Update Check", lastUpdateTime, "업데이트 확인 완료. 업데이터는 오프로드 상태에서만 동작합니다.");
     layout()->addWidget(lastUpdateTimeLbl);
     layout()->addWidget(horizontal_line());
 
