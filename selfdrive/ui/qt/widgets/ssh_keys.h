@@ -291,7 +291,7 @@ class HotspotOnBootToggle : public ToggleControl {
   Q_OBJECT
 
 public:
-  HotspotOnBootToggle() : ToggleControl("부팅시 핫스팟 자동실행", "부팅 후 핫스팟을 자동으로 실행합니다.", "../assets/offroad/icon_shell.png", Params().getBool("OpkrHotspotOnBoot")) {
+  HotspotOnBootToggle() : ToggleControl("부팅시 핫스팟 자동실행", "부팅 후 핫스팟을 자동으로 실행합니다.", "", Params().getBool("OpkrHotspotOnBoot")) {
     QObject::connect(this, &HotspotOnBootToggle::toggleFlipped, [=](int state) {
       char value = state ? '1' : '0';
       Params().put("OpkrHotspotOnBoot", &value, 1);
