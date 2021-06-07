@@ -347,6 +347,8 @@ void SoftwarePanel::updateLabels() {
   };
 
   QString version = QString::fromStdString(brand + " v" + params.get("Version").substr(0, 14)).trimmed();
+  QString remote = QString::fromStdString(params.get("GitRemote").substr(19)).trimmed();
+  QString branch = QString::fromStdString(params.get("GitBranch")).trimmed();
   QString lastUpdateTime = "";
 
   std::string last_update_param = params.get("LastUpdateTime");
@@ -359,10 +361,10 @@ void SoftwarePanel::updateLabels() {
     versionLbl = new LabelControl("Version", version, QString::fromStdString(params.get("ReleaseNotes")).trimmed());
     layout()->addWidget(versionLbl);
     layout()->addWidget(horizontal_line());
-    branchLbl = new LabelControl("Git Remote", QString::fromStdString(params.get("GitRemote").substr(19)), "");
-    layout()->addWidget(branchLbl);
+    remoteLbl = new LabelControl("Git Remote", remote, "");
+    layout()->addWidget(remoteLbl);
     layout()->addWidget(horizontal_line());
-    branchLbl = new LabelControl("Git Branch", QString::fromStdString(params.get("GitBranch")), "");
+    branchLbl = new LabelControl("Git Branch", branch, "");
     layout()->addWidget(branchLbl);
     layout()->addWidget(horizontal_line());
 
@@ -425,6 +427,8 @@ void SoftwarePanel::updateLabels() {
     layout()->addWidget(horizontal_line());
   } else {
     versionLbl->setText(version);
+    versionLbl->setText(remote);
+    versionLbl->setText(branch);
     lastUpdateTimeLbl->setText(lastUpdateTime);
     updateButton->setText("확인");
     updateButton->setEnabled(true);
