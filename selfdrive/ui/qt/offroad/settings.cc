@@ -340,8 +340,8 @@ void SoftwarePanel::updateLabels() {
   Params params = Params();
   std::string brand = params.getBool("Passive") ? "대시캠" : "오픈파일럿";
   QList<QPair<QString, std::string>> dev_params = {
-    {"Git Branch", params.get("GitBranch")},
-    {"Git Commit", params.get("GitCommit").substr(0, 10)},
+    //{"Git Branch", params.get("GitBranch")},
+    //{"Git Commit", params.get("GitCommit").substr(0, 10)},
     {"Panda Firmware", params.get("PandaFirmwareHex")},
     {"OS Version", Hardware::get_os_version()},
   };
@@ -359,8 +359,14 @@ void SoftwarePanel::updateLabels() {
     versionLbl = new LabelControl("Version", version, QString::fromStdString(params.get("ReleaseNotes")).trimmed());
     layout()->addWidget(versionLbl);
     layout()->addWidget(horizontal_line());
+    branchLbl = new LabelControl("Git Remote", QString::fromStdString(params.get("GitRemote").substr(19)), "");
+    layout()->addWidget(branchLbl);
+    layout()->addWidget(horizontal_line());
+    branchLbl = new LabelControl("Git Branch", QString::fromStdString(params.get("GitBranch")), "");
+    layout()->addWidget(branchLbl);
+    layout()->addWidget(horizontal_line());
 
-    lastUpdateTimeLbl = new LabelControl("Last Update Check", lastUpdateTime, "업데이트 확인 완료. 업데이터는 오프로드 상태에서만 동작합니다.");
+    lastUpdateTimeLbl = new LabelControl("Last Update Check", lastUpdateTime, "");
     layout()->addWidget(lastUpdateTimeLbl);
     layout()->addWidget(horizontal_line());
 
