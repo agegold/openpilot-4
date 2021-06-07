@@ -81,24 +81,23 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   QPixmap hkgpix("../assets/offroad/hkg.png");
   QLabel *hkg = new QLabel();
-  hkg->setPixmap(hkgpix.scaledToWidth(430, Qt::SmoothTransformation));
+  hkg->setPixmap(hkgpix.scaledToWidth(450, Qt::SmoothTransformation));
   hkg->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
   mainLayout->addWidget(hkg, 0, Qt::AlignCenter);
 
-  //username = new QLabel();
-  //username->setStyleSheet("font-size: 45px;"); // TODO: fit width
+  username = new QLabel();
+  username->setStyleSheet("font-size: 55px;"); // TODO: fit width
   //mainLayout->addWidget(username, 0, Qt::AlignTop);
 
-  //mainLayout->addSpacing(100);
+  mainLayout->addSpacing(100);
 
-  //QLabel* commaPoints = new QLabel("COMMA POINTS");
-  //commaPoints->setStyleSheet(R"(
-  //  color: #b8b8b8;
-  //  font-size: 45px;
-  //)");
+  QLabel* commaPoints = new QLabel("COMMA POINTS");
+  commaPoints->setStyleSheet(R"(
+    color: #b8b8b8;
+  )");
   //mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
 
-  //points = new QLabel();
+  points = new QLabel();
   //mainLayout->addWidget(points, 0, Qt::AlignTop);
 
   setLayout(mainLayout);
