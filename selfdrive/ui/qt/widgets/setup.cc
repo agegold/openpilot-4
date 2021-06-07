@@ -76,23 +76,30 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   mainLayout = new QVBoxLayout;
   mainLayout->setMargin(30);
 
-  QLabel* commaPrime = new QLabel("COMMA PRIME");
-  mainLayout->addWidget(commaPrime, 0, Qt::AlignTop);
+  QLabel* commaPrime = new QLabel("오픈파일럿");
+  mainLayout->addWidget(commaPrime, 0, Qt::AlignCenter);
 
-  username = new QLabel();
-  username->setStyleSheet("font-size: 48px;"); // TODO: fit width
-  mainLayout->addWidget(username, 0, Qt::AlignTop);
+  QPixmap hkgpix("../assets/offroad/hkg.png");
+  QLabel *hkg = new QLabel();
+  hkg->setPixmap(hkgpix.scaledToWidth(430, Qt::SmoothTransformation));
+  hkg->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
+  mainLayout->addWidget(hkg, 0, Qt::AlignCenter);
 
-  mainLayout->addSpacing(100);
+  //username = new QLabel();
+  //username->setStyleSheet("font-size: 45px;"); // TODO: fit width
+  //mainLayout->addWidget(username, 0, Qt::AlignTop);
 
-  QLabel* commaPoints = new QLabel("COMMA POINTS");
-  commaPoints->setStyleSheet(R"(
-    color: #b8b8b8;
-  )");
-  mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
+  //mainLayout->addSpacing(100);
 
-  points = new QLabel();
-  mainLayout->addWidget(points, 0, Qt::AlignTop);
+  //QLabel* commaPoints = new QLabel("COMMA POINTS");
+  //commaPoints->setStyleSheet(R"(
+  //  color: #b8b8b8;
+  //  font-size: 45px;
+  //)");
+  //mainLayout->addWidget(commaPoints, 0, Qt::AlignTop);
+
+  //points = new QLabel();
+  //mainLayout->addWidget(points, 0, Qt::AlignTop);
 
   setLayout(mainLayout);
   setStyleSheet(R"(
