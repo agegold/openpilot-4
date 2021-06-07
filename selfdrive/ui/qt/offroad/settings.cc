@@ -427,8 +427,8 @@ void SoftwarePanel::updateLabels() {
     layout()->addWidget(horizontal_line());
   } else {
     versionLbl->setText(version);
-    versionLbl->setText(remote);
-    versionLbl->setText(branch);
+    remoteLbl->setText(remote);
+    branchLbl->setText(branch);
     lastUpdateTimeLbl->setText(lastUpdateTime);
     updateButton->setText("확인");
     updateButton->setEnabled(true);
