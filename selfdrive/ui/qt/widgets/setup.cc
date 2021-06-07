@@ -78,10 +78,10 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
 
   QLabel* commaPrime = new QLabel("오픈파일럿");
   mainLayout->addWidget(commaPrime, 0, Qt::AlignCenter);
-
+  mainLayout->addSpacing(15);
   QPixmap hkgpix("../assets/offroad/hkg.png");
   QLabel *hkg = new QLabel();
-  hkg->setPixmap(hkgpix.scaledToWidth(450, Qt::SmoothTransformation));
+  hkg->setPixmap(hkgpix.scaledToWidth(470, Qt::SmoothTransformation));
   hkg->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
   mainLayout->addWidget(hkg, 0, Qt::AlignCenter);
 
@@ -89,7 +89,7 @@ PrimeUserWidget::PrimeUserWidget(QWidget* parent) : QWidget(parent) {
   username->setStyleSheet("font-size: 55px;"); // TODO: fit width
   //mainLayout->addWidget(username, 0, Qt::AlignTop);
 
-  mainLayout->addSpacing(100);
+  //mainLayout->addSpacing(10);
 
   QLabel* commaPoints = new QLabel("COMMA POINTS");
   commaPoints->setStyleSheet(R"(
